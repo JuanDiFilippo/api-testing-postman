@@ -1,4 +1,4 @@
-# api-testing-postman
+# API-testing-postman
 
 ## Project Overview
 
