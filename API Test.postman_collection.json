@@ -1,0 +1,181 @@
+{
+  "info": {
+    "_postman_id": "080cba83-29cb-47f8-97b3-db03a4c54228",
+    "name": "API Test",
+    "description": "EXERCISE: API TESTING\n\nObjective: Using Postman, create a suite of automated tests for the following APIs.\n\nAPI URLs:\n\nUser API: [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)\n\n1. Validate that the API returns a 200 status.\n    \n2. Validate that the API returns the username, address, and city fields in the response.\n    \n3. Validate that the API responds in less than 800 milliseconds.\n    \n\n---\n\nAPI comments: [https://jsonplaceholder.typicode.com/comments](https://jsonplaceholder.typicode.com/comments)\n\n1. Validate that the API returns a status of 200.\n    \n2. Validate that the API returns the fields name, email, and body in the response.\n    \n3. Validate that the API responds in less than 900 milliseconds.\n    \n\n---\n\nPhoto API: [https://jsonplaceholder.typicode.com/photos](https://jsonplaceholder.typicode.com/photos)\n\n1. Validate that the API returns a status of 200.\n    \n2. Validate that the API returns the fields albumId, title, and url in the response.\n    \n3. Validate that the API responds in less than 800 milliseconds.\n    \n\n---\n\nFor this specific case, you could verify that the words “username, address, and city fields” appear in the API using:\n\npm.test(“The response includes the name of the car”, function () { pm.expect(pm.response.text()).to.include(“name”) });EndFragment\n\nTo perform a “more robust test,” I will convert the HTML structure into a JSON object and thus verify the correct status of the elements.\n\nThis will be repeated for the following API tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52846146"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"API returns username\", () => {\r",
+              "    const jsonData = pm.response.json();\r",
+              "\r",
+              "    jsonData.forEach(user => {\r",
+              "        pm.expect(user).to.have.property(\"username\");\r",
+              "        pm.expect(user.username).to.be.a(\"string\");\r",
+              "        \r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"Each user contains address object with valid city\", () => {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    jsonData.forEach(user => {\r",
+              "        pm.expect(user).to.have.property(\"address\")\r",
+              "        pm.expect(user.address).to.have.property(\"city\"); \r",
+              "        pm.expect(user.address.city).to.be.a(\"string\")\r",
+              "        \r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 800ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+              "});\r",
+              "  "
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "comments",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Each comment contains required fields with valid types\", () => {\r",
+              "    const jsonData = pm.response.json();\r",
+              "\r",
+              "    jsonData.forEach(comment => {\r",
+              "        pm.expect(comment).to.have.property(\"name\");\r",
+              "        pm.expect(comment.name).to.be.a(\"string\");\r",
+              "\r",
+              "        pm.expect(comment).to.have.property(\"email\");\r",
+              "        pm.expect(comment.email).to.be.a(\"string\");\r",
+              "\r",
+              "        pm.expect(comment).to.have.property(\"body\");\r",
+              "        pm.expect(comment.body).to.be.a(\"string\");\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 900ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/comments",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Photo API",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Each photo contains required fields with valid types\", () => {\r",
+              "    const jsonData = pm.response.json();\r",
+              "\r",
+              "    jsonData.forEach(photo => {\r",
+              "        pm.expect(photo).to.have.property(\"albumId\");\r",
+              "        pm.expect(photo.albumId).to.be.a(\"number\");\r",
+              "\r",
+              "        pm.expect(photo).to.have.property(\"title\");\r",
+              "        pm.expect(photo.title).to.be.a(\"string\");\r",
+              "\r",
+              "        pm.expect(photo).to.have.property(\"url\");\r",
+              "        pm.expect(photo.url).to.be.a(\"string\");\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 800ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/photos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "photos"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
