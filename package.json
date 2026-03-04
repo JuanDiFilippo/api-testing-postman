@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "newman": "newman run postman/collections/example-collection.json"
+    "newman": "newman run collections/example-collection.json"
   },
   "devDependencies": {
     "newman": "^5.0.0"
