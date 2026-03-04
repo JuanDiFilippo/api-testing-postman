@@ -1,45 +1,50 @@
-# API-testing-postman
+# Postman API Testing
 
-## Project Overview
+Esta carpeta contiene un proyecto de prueba basado en una colección de Postman.
 
-This project contains a Postman collection designed to validate the structure and behavior of publicly available REST APIs.  
-The goal is to demonstrate fundamental API testing practices using automated test scripts within Postman.
+## Estructura
 
-## APIs Tested
+```text
+postman/
+  collections/           # colecciones exportadas (.json)
+  environments/          # entornos exportados (opcional)
+  package.json           # dependencias y scripts de ejecución
+  .gitignore             # archivos a ignorar
+  README.md              # este archivo
+```
 
-The following endpoints from JSONPlaceholder were used:
+## Uso
 
-- https://jsonplaceholder.typicode.com/users
-- https://jsonplaceholder.typicode.com/comments
-- https://jsonplaceholder.typicode.com/photos
+1. **Importar colección**: en la app de Postman, selecciona *Import* y elige `postman/collections/example-collection.json`.
+2. **(Opcional) Importar entorno**: si tienes un archivo en `postman/environments`.
+3. **Ejecutar con Newman** desde la línea de comandos:
 
-## Validations Implemented
+   ```bash
+   npm install
+   npm run newman
+   ```
 
-For each endpoint, the following validations are performed:
+   Esto ejecuta la colección con los valores de entorno por defecto.
 
-- HTTP status code verification (200 OK)
-- JSON response parsing
-- Validation of required properties
-- Data type assertions (string, number)
-- Nested object validation (e.g., address.city)
-- Response time threshold checks
+4. Para especificar un entorno manualmente:
 
-## Example Validation Logic
+   ```bash
+   npx newman run postman/collections/example-collection.json \
+     --environment postman/environments/dev.postman_environment.json
+   ```
 
-Tests include:
+5. Si actualizas la colección en Postman, expórtala de nuevo (`...` > *Export*) y reemplaza el fichero JSON en `postman/collections`.
 
-- Ensuring each object in the response array contains required fields
-- Verifying nested properties exist within parent objects
-- Asserting correct data types for key fields
-- Validating response time against defined performance limits
+## Configuración optional
 
-## How to Run
+- Puedes crear scripts adicionales en `package.json` para diferentes entornos o reportes.
+- Agrega un workflow de GitHub Actions para ejecutar Newman automáticamente en cada push.
 
-1. Open Postman
-2. Import the `API_Test.postman_collection.json` file
-3. Run the collection using the Collection Runner
-4. Review test results in the Postman console
+## .gitignore
 
----
+Asegúrate de tener estas entradas para no subir dependencias ni datos sensibles:
 
-This project demonstrates practical API testing fundamentals and structured validation of REST responses using Postman.
+```
+node_modules/
+*.postman_environment.json
+```
